@@ -83,13 +83,13 @@ Running -Z with -v will create a "big zip", which will create a single zip for t
 
 ```<modname>``` is specified in the command line, ```<version name>``` is based on the names of the folders for each version.
 
-## Ignoring Features, Versions and Files
+# Ignoring Features, Versions and Files
 
 Prepending any filename in the ```src``` folder with ```#``` will exclude it from builds
 
 Prepending any feature or version folder in the ```src``` folder with ```#``` will exclude it from builds
 
-## Special Versions
+# Special Versions
 
 if a version is named ```$common```, it will be included in all other versions when built. This allows having some common files that will exist in every version
 
@@ -102,7 +102,7 @@ When building zip files, the ```<version name``` used for the ```$core``` versio
 
 If more specialised version functionality is required (such as having features available in certain versions but not others), this is not supported, but can be done using symbolic links or junctions.
 
-## Command Line Examples
+# Command Line Examples
 
 For ease of use, it's recommended to create a ```make.cmd``` file in the root of your project to enable easy building. The following ```make.cmd``` examples assume makedml is installed to the ```build``` folder within the project.
 
