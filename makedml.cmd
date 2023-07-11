@@ -92,7 +92,6 @@ if "%1" == "-f" (
 ) else if "%1" == "-v" (
 	rmdir /s /q ".\zips" 2>NUL
 	mkdir ".\zips"
-	
 	setlocal enableDelayedExpansion
 		for /D %%i in ("%~dpn2\*") do (
 		
@@ -123,7 +122,8 @@ if "%1" == "-f" (
 			mkdir !dirname!
 			xcopy /E "%%~i\*" !dirname!
 		)
-		7z a ".\zips\%~3.7z" ".\zips\*"
+		7z a "%~3.7z" ".\zips\*"
+		rmdir /s /q ".\zips" 2>NUL
 	endlocal
 )
 
