@@ -12,6 +12,8 @@ if "%1" == "-f" (
 	call :make_versions %2 %3 %4 %5 %6 %7 %8 %9
 ) else if "%1" == "-z" (
 	call :zip %2 %3 %4 %5
+) else if "%1" == "-Z" (
+	call :bigzip %2 %3 %4 %5
 ) else (
 	echo MakeDML version 0.1
 	echo:
@@ -45,7 +47,7 @@ if "%1" == "-f" (
 	echo Any version directories starting with "$" will be built standalone and will not have the contents of $common or $core added
 	echo.
 	echo.
-	echo Zip Mode ^(-z, then -f or -v^):
+	echo Zip Mode ^(-z or -Z, then -f or -v^):
 	echo.
 	echo If zip mode is run with -f, the contents of the specified $destination_dir will be zipped
 	echo using the specified $modname as "$modname.7z"
@@ -61,6 +63,8 @@ if "%1" == "-f" (
 	echo.
 	echo In all cases, any starting "$" characters will be removed from version suffixes.
 	echo.
+	echo When using -Z instead of -z, it will make one zip file containing all modules, rather than separate zip files for each
+	echo.
 	echo.
 	echo Additional Notes:
 	echo.
@@ -74,6 +78,56 @@ if "%1" == "-f" (
 EXIT /B
 
 ::FUNCTIONS
+
+:bigzip
+
+if "%~3" == "" (
+	echo zip: Invalid mod name specified: "%~3"
+	EXIT /B 0
+)
+
+if "%1" == "-f" (
+	@del "%~3.7z"
+	7z a "%~3.7z" "%~dpn2\*"
+) else if "%1" == "-v" (
+	rmdir /s /q ".\zips" 2>NUL
+	mkdir ".\zips"
+	
+	setlocal enableDelayedExpansion
+		for /D %%i in ("%~dpn2\*") do (
+		
+			rem Set the version name, but we need to remove the trailing "$" if it exists
+			set "version_name=%%~ni"
+			if "!version_name:~0,1!" == "$" (
+				set "version_name=!version_name:~1!"
+			)
+
+			if "%%~ni" == "$core" (
+				if not "%~n4" == "" (
+					set dirname=".\zips\%~3 - %~n4"
+					
+				) else (
+					set dirname=".\zips\%~3"
+				)
+			) else if "%%~ni" == "$main" (
+				if not "%~n4" == "" (
+					set dirname=".\zips\%~3 - %~n4"
+				) else (
+					set dirname=".\zips\%~3"
+				)
+			) else (
+				set dirname=".\zips\%~3 - !version_name!"
+			)
+
+			echo !dirname!
+			mkdir !dirname!
+			xcopy /E "%%~i\*" !dirname!
+		)
+		7z a ".\zips\%~3.7z" ".\zips\*"
+	endlocal
+)
+
+EXIT /B 0
 
 :zip
 
@@ -100,19 +154,20 @@ if "%1" == "-f" (
 
 			if "%%~ni" == "$core" (
 				if not "%~n4" == "" (
-					7z a ".\zips\%~3 - %~n4.7z" "%%~i\*"
+					set archive_name=".\zips\%~3 - %~n4.7z"
 				) else (
-					7z a ".\zips\%~3.7z" "%%~i\*"
+					set archive_name=".\zips\%~3.7z"
 				)
 			) else if "%%~ni" == "$main" (
 				if not "%~n4" == "" (
-					7z a ".\zips\%~3 - %~n4.7z" "%%~i\*"
+					set archive_name=".\zips\%~3 - %~n4.7z"
 				) else (
-					7z a ".\zips\%~3.7z" "%%~i\*"
+					set archive_name=".\zips\%~3.7z"
 				)
 			) else (
-				7z a ".\zips\%~3 - !version_name!.7z" "%%~i\*"
+				set archive_name=".\zips\%~3 - !version_name!.7z"
 			)
+			7z a !archive_name! "%%~i\*"
 		)
 	endlocal
 )
