@@ -3,7 +3,7 @@ A simple build system for System Shock 2 mods.
 
 # Features
 
-- Automatic creation/population of DML headers and fingerprints
+- Automatic creation of DML headers and fingerprints
 - Automatic merging of different feature folders, allowing for different mod features to be added/removed as needed
 - Ignoring/removing features from builds by prepending feature folder or file names with #
 - Ability to create different versions of mods, including versions which depend on a $core master version
