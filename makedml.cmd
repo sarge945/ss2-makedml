@@ -92,6 +92,7 @@ if "%1" == "-f" (
 ) else if "%1" == "-v" (
 	rmdir /s /q ".\zips" 2>NUL
 	mkdir ".\zips"
+	
 	setlocal enableDelayedExpansion
 		for /D %%i in ("%~dpn2\*") do (
 		
