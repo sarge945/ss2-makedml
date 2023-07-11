@@ -6,7 +6,7 @@ A simple build system for System Shock 2 mods.
 - Automatic creation of DML headers and fingerprints
 - Automatic merging of different feature folders, allowing for different mod features to be added/removed as needed
 - Ignoring/removing features from builds by prepending feature folder or file names with #
-- Ability to create different versions of mods, including versions which depend on a $core master version
+- Ability to create different versions of mods, additionally with a comon set of features for all versions
 - Automatically zip mod versions ready for distribution using 7-zip
 
 # How to use
@@ -42,12 +42,8 @@ See the ```headers``` folder to add fingerprints for other mods or fan missions.
 
 ## Version Mode (-v)
 
-Each subfolder of $source_dir will be made independently into a separate version of the project,
+Each subfolder of ```src``` will be made independently into a separate version of the project,
 as if feature mode was run for that subfolder.
-
-Additionally, the contents of the $common and $core version folders will be added to each version of the mod before building.
-The main difference is that $common will not be made as a standalone version, but $core will.
-Any version directories starting with "$" will be built standalone and will not have the contents of $common or $core added
 
 Lets say we have a sample mod with the following folder structure:
 
@@ -62,6 +58,8 @@ Lets say we have a sample mod with the following folder structure:
         - medsci1.mis.dml
     - version2
       - feature1
+        - sq_scripts
+          - scripts.nut
         - gamesys.dml
       - feature2
         - gamesys.dml
@@ -98,7 +96,7 @@ This allows creating a "basic" version of a mod with only core features, plus ad
 
 Any version with a name prepended with ```$``` will not have the contents of the ```$common``` or ```$core``` versions added to it. This can be used to make special "addon" files that work with all versions of a mod.
 
-When building zip files, the ```<version name``` used for the ```$core``` version can be specified on the command line (see the command line examples section)
+When building zip files, the ```<version name>``` used for the ```$core``` version can be specified on the command line (see the command line examples section)
 
 If more specialised version functionality is required (such as having features available in certain versions but not others), this is not supported, but can be done using symbolic links or junctions.
 
