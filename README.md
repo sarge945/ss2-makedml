@@ -106,12 +106,27 @@ If more specialised version functionality is required (such as having features a
 
 For ease of use, it's recommended to create a ```make.cmd``` file in the root of your project to enable easy building. The following ```make.cmd``` examples assume makedml is installed to the ```build``` folder within the project.
 
-This will make all versions in the ```src``` folder in the ```out``` folder, adding fingerprints for vanilla and SCP to all mission DMLs
+This will make all features in the ```src``` folder in the ```out``` folder, adding fingerprints for vanilla and SCP to all mission DMLs
+```
+call build/makedml.cmd -f "%~dp0\src" "%~dp0\out" "vanilla" "scp"
+```
+
+This will make all features in all versions in the ```src``` folder in the ```out``` folder, with each version being added as a subfolder, adding fingerprints for vanilla and SCP to all mission DMLs
 ```
 call build/makedml.cmd -v "%~dp0\src" "%~dp0\out" "vanilla" "scp"
 ```
 
-This will zip all versions in the ```out``` folder into a big zip called ```"Randomiser 1.0RC - <feature name>.7z"```, and the ```$core``` version will be named ```"Randomiser 1.0RC - Lite.7z"```
+This will zip the "feature mode" build in the ```out``` folder into a zip called ```"Randomiser 1.0RC.7z"```
+```
+call build/makedml.cmd -z -f "%~dp0\out" "Randomiser 1.0RC"
+```
+
+This will zip the "version mode" build in the ```out``` folder into zips called ```"zips/Randomiser 1.0RC - <version name>.7z"```, and the ```$core``` version will be in a zip named ```"zips/Randomiser 1.0RC - Lite.7z"```
+```
+call build/makedml.cmd -z -v "%~dp0\out" "Randomiser 1.0RC" "Lite"
+```
+
+This will zip the "version mode" build in the ```out``` folder into a big zip called ```"Randomiser 1.0RC.7z"```, and the ```$core``` version will be in a subfolder named ```"Lite"```
 ```
 call build/makedml.cmd -Z -v "%~dp0\out" "Randomiser 1.0RC" "Lite"
 ```
