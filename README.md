@@ -11,7 +11,7 @@ A simple build system for System Shock 2 mods.
 
 # How to use
 
-MakeDML works in one of 3 ways, based on command line arguments.
+MakeDML is a command line program that works in one of 3 ways, based on command line arguments. Run with no arguments to see a rundown of syntax, or see the Command Line Examples section
 
 ## Feature Mode (-f)
 
