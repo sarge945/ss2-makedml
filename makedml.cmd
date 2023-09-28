@@ -177,16 +177,13 @@ EXIT /B 0
 
 :populate_header
 
-::Do not include headers for gamesys.dml, since
-::usually it's automaticlaly applied to a gamesys
-if "%~nx1" == "gamesys.dml" (
-	EXIT /B 0
-)
-
-if exist "%~dp0headers\%~2\$common.dml" (
-	echo.>> "%~1"
-	echo.>> "%~1"
-	type "%~dp0headers\%~2\$common.dml" >> "%~1"
+::Don't include $common for gamesys.dml
+if NOT "%~nx1" == "gamesys.dml" (
+	if exist "%~dp0headers\%~2\$common.dml" (
+		echo.>> "%~1"
+		echo.>> "%~1"
+		type "%~dp0headers\%~2\$common.dml" >> "%~1"
+	)
 )
 if exist "%~dp0headers\%~2\%~nx1" (
 	echo.>> "%~1"
